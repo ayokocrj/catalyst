@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+import dotenv from "dotenv";
+import path from "path";
+import { Command } from "commander";
+
+dotenv.config({
+  path: path.resolve(import.meta.dirname, "../../../.env"),
+  quiet: true,
+});
+
+// Check if we are running in non-interactive CLI command mode
+if (process.argv.length > 2) {
+  const { runSourcing, runExtract, runAudit } = await import("../src/lib/commands.js");
+  const program = new Command();
+
+  program
+    .name("catalyst")
+    .description("Catalyst CLI - Specialized financial due diligence & sourcing assistant")
+    .version("1.0.0");
+
+  program
+    .command("sourcing")
+    .description("Identify target acquisitions in an industry and region")
+    .requiredOption("-i, --industry <industry>", "Target industry (e.g., SaaS, Retail)")
+    .requiredOption("-r, --region <region>", "Target geographic region (e.g., France, Europe)")
+    .option("-s, --size <size>", "Company size class (e.g., PME, ETI)", "TPE/PME")
+    .option("-o, --output <output>", "Path to save Excel file", "sourcing_leads.xlsx")
+    .action(async (options) => {
+      await runSourcing(options);
+      process.exit(0);
+    });
+
+  program
+    .command("extract")
+    .description("Extract structured financial statements and key ratios from a PDF/Excel document")
+    .requiredOption("-t, --target <path>", "Path to target PDF/Excel document")
+    .option("-o, --output <output>", "Path to save output Excel file", "extracted_financials.xlsx")
+    .option("-inst, --instructions <text>", "Custom AI extraction instructions")
+    .action(async (options) => {
+      await runExtract(options);
+      process.exit(0);
+    });
+
+  program
+    .command("audit")
+    .description("Perform audit and EBITDA adjustments analysis on a financial statement")
+    .requiredOption("-t, --target <path>", "Path to financial statement document (PDF/Excel)")
+    .option("-o, --output <output>", "Path to save output audit Excel file", "due_diligence_audit.xlsx")
+    .action(async (options) => {
+      await runAudit(options);
+      process.exit(0);
+    });
+
+  program.parse(process.argv);
+} else {
+  // Otherwise load the interactive TUI (requires bun/opentui)
+  await import("../src/index.tsx");
+}

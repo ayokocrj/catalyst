@@ -1,0 +1,28 @@
+{
+  "name": "@catalyst/server",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "postinstall": "pnpm --filter @catalyst/database db:generate"
+  },
+  "dependencies": {
+    "tsx": "^4.19.3",
+    "@hono/node-server": "^1.13.7",
+    "@ai-sdk/anthropic": "^3.0.68",
+    "@ai-sdk/openai": "^3.0.52",
+    "@clerk/backend": "^3.2.8",
+    "@hono/zod-validator": "^0.7.6",
+    "@catalyst/database": "workspace:*",
+    "@catalyst/shared": "workspace:*",
+    "@polar-sh/sdk": "^0.47.1",
+    "ai": "^6.0.154",
+    "dotenv": "^17.4.1",
+    "hono": "^4.12.12",
+    "zod": "^4.3.6"
+  }
+}

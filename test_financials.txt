@@ -1,0 +1,9 @@
+Acme Corp Financial Statements 2024
+Revenue: €4,200,000
+Gross Profit: €3,570,000
+EBITDA: €1,134,000
+Net Income: €720,000
+Cash: €1,240,000
+Debt: €500,000
+Equity: €2,100,000
+Working Capital: €310,000
