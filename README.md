@@ -16,6 +16,26 @@ Built with a secure **Client-Server architecture** (Node.js/Hono/TypeScript), Ca
 
 ---
 
+## 🛡️ AI Governance & Trust Architecture (AISearchFund Alignment)
+
+Catalyst is designed to serve as the client-side execution interface for the **AISearchFund Socio-Technical Trust Architecture**, currently being formalized in collaboration with researchers at the University of Oxford's Institute for Ethics in AI. 
+
+To transition financial AI from a probabilistic "black box" into an auditable compliance infrastructure, Catalyst addresses the core tenets of the **PRAC3 Framework** (Privacy, Reputation, Accountability, Consent, Credit, Compensation) at the software and database layers:
+
+### 1. Mitigating Automation Bias (Human-HCI Interaction)
+*   **The Hazard:** Financial analysts frequently suffer from *Automation Bias*, blindly trust-validating plausible-looking but sémanticly incorrect LLM outputs (e.g., EBITDA adjustments).
+*   **The Mitigation:** The `extract` and `audit` commands generate **Verifiable Execution Traces (VET)**. Every cell in the final Excel output is cryptographically anchored back to its exact coordinate (page, bounding box, raw context snippet) in the source PDF document, forcing cognitive friction and mandatory human verification.
+
+### 2. Algorithmic Trust & Accountability (O(1) Verification)
+*   **The Hazard:** Standard due diligence relies on human checklists—an $O(n)$ labor-intensive cost structure prone to oversight.
+*   **The Mitigation:** Catalyst is designed to connect to the AISearchFund server-side consensus engine. For high-stakes metrics, it runs 100 parallel adversarial inferences. The consensus path (Token $\rightarrow$ Log $\rightarrow$ Fact) is hashed into a **Merkle Tree**. In the database schema, financial records are stored in **5th Normal Form (5NF)** with a foreign key constraint linking directly to the signed `VET_Receipt` hash. If any data point is tampered with, the Merkle Root breaks, making silent failures immediately detectable ($O(1)$ verification cost).
+
+### 3. Data Sovereignty & Confidentiality (AID Principles)
+*   **The Hazard:** Processing proprietary Private Equity memorandums via public APIs introduces severe data leaks and vendor lock-in risks.
+*   **The Mitigation:** Operating under the **Architecture for Independent Data (AID)** guidelines, the server component is deployable within **Trusted Execution Environments (TEE)** (using Intel SGX / AMD SEV-SNP enclaves). Private deal data remains encrypted in memory during inference, ensuring the compute host (even cloud providers like Microsoft Azure) cannot inspect the sensitive financial assets."
+
+---
+
 ## Monorepo Architecture
 
 Catalyst is organized as a TypeScript monorepo managed by `pnpm`:
